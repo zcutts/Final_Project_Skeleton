@@ -11,7 +11,7 @@ class NeuralNetwork:
     	# create 8x3x8 encoder
     	self.inputSize = 68
     	self.outputSize = 1
-    	self.hiddenSize = 10
+    	self.hiddenSize = 60
 		# two sets of weights required 
     	# 1) to go from input layer to hiden layer
     	# 2) to go from the hidden layer to the output layer
@@ -190,8 +190,13 @@ for i in range(10000): # trains the NN 5,000 times
   NN.feedforward(train_x)
   NN.fit(train_x, train_y)
 
+print('Prediction')
 print(NN.predict(test_x))
-print('heh')
+
+print('Prediction?')
+print(NN.feedforward(test_x))
+
+print('Actual answer')
 print(test_y)
 
 # answer = NN.feedforward(X)
