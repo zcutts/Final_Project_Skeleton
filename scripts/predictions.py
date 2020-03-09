@@ -11,7 +11,7 @@ class NeuralNetwork:
     	# create 8x3x8 encoder
     	self.inputSize = 68
     	self.outputSize = 1
-    	self.hiddenSize = 60
+    	self.hiddenSize = 10
 		# two sets of weights required 
     	# 1) to go from input layer to hiden layer
     	# 2) to go from the hidden layer to the output layer
@@ -132,8 +132,9 @@ with open('../data/yeast-upstream-1k-negative.fa') as txt:
 	for record in SeqIO.parse("../data/yeast-upstream-1k-negative.fa", "fasta"):
 		all_negatives.append(str(record.seq))
 
+
 # match the number of positives and negatives
-long_negatives = random.sample(all_negatives, len(positives))
+long_negatives = random.sample(all_negatives, 3164)
 
 # randomly select 17mer from entire negative sequence
 negatives = []
@@ -177,8 +178,11 @@ pos_y = [1] * len(positive_binary)
 neg_y = [0] * len(negative_binary)
 combined_y = pos_y + neg_y
 y = np.asarray(combined_y)
-y = y.reshape(548,1)
+y = y.reshape(y.shape[0],1)
 
+print(len(positives))
+print(len(cleaned_negatives))
+print(len(neg_y))
 
 def split_train_test(x_data, y_data, test_ratio):
 	shuffled_indicies = np.random.permutation(len(x_data))
