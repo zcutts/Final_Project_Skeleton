@@ -98,7 +98,12 @@ class NeuralNetwork:
 
 # Describe and implement a data preprocessing approach
 
-# read in test sequences
+# read in test sequences positive, negative, and test sequences
+# take reverse complement of positive sequences to create more positive data
+# down sample negatives to match # of positives, and make 17bp long
+# ensure that none of negatives are in the positives
+# convert to binary
+# split into testing and training
 
 with open('../data/rap1-lieb-test.txt') as txt:
 	all_seqs = txt.readlines()
@@ -138,6 +143,15 @@ for seq in long_negatives:
 	end = start + 17
 	negatives.append(seq[start:end])
 
+# make sure that negatives and positives don't overlap
+
+# l3 = [x for x in l1 if x not in l2]
+cleaned_negatives = [x for x in negatives if x not in positives]
+
+# ensure that none of positives and negatives overlap
+# looks like zero overlap
+# print(len(set(cleaned_negatives).intersection(set(positives))))
+
 convert = {'A': [1,0,0,0], 'T': [0,1,0,0], 'G': [0,0,1,0], 'C': [0,0,0,1]}
 
 
@@ -153,7 +167,7 @@ def binary_conversion(sequence_list):
 	return test_seq
 
 positive_binary = binary_conversion(positives)
-negative_binary = binary_conversion(negatives)
+negative_binary = binary_conversion(cleaned_negatives)
 test_binary = binary_conversion(test_sequences_list)
 
 x = positive_binary + negative_binary
