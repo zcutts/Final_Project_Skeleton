@@ -89,9 +89,9 @@ class NeuralNetwork:
 
 # print(np.asarray(answer))
 
+# autoencoder seems to be working
 # for i in answer:
 # 	print(sum(i))
-# autoencoder seems to be working
 
 
 
@@ -181,6 +181,7 @@ def split_train_test(x_data, y_data, test_ratio):
 
 train_x, test_x, train_y, test_y = split_train_test(x,y,0.2)
 
+
 NN = NeuralNetwork()
 
 # X = np.identity(8)
@@ -192,9 +193,6 @@ for i in range(10000): # trains the NN 5,000 times
 
 print('Prediction')
 print(NN.predict(test_x))
-
-print('Prediction?')
-print(NN.feedforward(test_x))
 
 print('Actual answer')
 print(test_y)

@@ -3,6 +3,7 @@ from scripts import NN
 
 def test_encoder():
 
+
 def test_encoder_relu():
 
 
