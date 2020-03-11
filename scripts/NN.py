@@ -15,16 +15,21 @@ class NeuralNetwork:
     	# 2) to go from the hidden layer to the output layer
     	self.W1 = np.random.randn(self.inputSize, self.hiddenSize) 
     	self.W2 = np.random.randn(self.hiddenSize, self.outputSize)
-    	self.bias = np.random.rand(1)
-    	self.bias2 = np.random.rand(1)
+    	self.bias = np.zeros((self.outputSize, self.hiddenSize))
+    	self.bias2 = np.zeros((self.outputSize, self.outputSize))
 
     def make_weights(self):
     	self.W1 = np.random.randn(self.inputSize, self.hiddenSize) 
     	self.W2 = np.random.randn(self.hiddenSize, self.outputSize) 
 
-    def softmax(self, s):
-    	exps = np.exp(s - np.max(s, axis=1, keepdims=True))
-    	return exps/np.sum(exps, axis=1, keepdims=True)
+    # def softmax(self, s):
+    # 	exps = np.exp(s - np.max(s, axis=1, keepdims=True))
+    # 	return exps/np.sum(exps, axis=1, keepdims=True)
+    # def softmax(self, s):
+    # 	return np.exp(s)/np.sum(np.exp(s), axis=0)
+    def softmax(self, Z):
+    	expZ = np.exp(Z - np.max(Z))
+    	return expZ / expZ.sum(axis=0, keepdims=True)
 
     def feedforward(self, X):
     	#forward propagation through our network
@@ -48,6 +53,7 @@ class NeuralNetwork:
     	# since we started with random wieghts have to alter them so the output gets more accurate
 
     	self.o_error = y - o # y is the actual output, o is the predicted output (for autoencoder these should be the same)
+    	self.mse = ((y-o)**2).mean()
     	self.o_delta = self.o_error*self.sigmoidPrime(o) # get delta output sum by applying derivative of sigmoid to error 
 
     	# dot product of delta output sum and the second set of weights (from hidden layer to output)
@@ -74,20 +80,25 @@ class NeuralNetwork:
     	return self.feedforward(X)
 
 
-# NN = NeuralNetwork()
+NN = NeuralNetwork()
 
-# X = np.identity(8)
-# y = X
+X = np.identity(8)
+y = X
 
-# for i in range(10000): # trains the NN 5,000 times
-#   NN.feedforward(X)
-#   NN.fit(X, y)
+for i in range(10000): # trains the NN 5,000 times
+  NN.feedforward(X)
+  NN.fit(X, y)
 
-# answer = NN.feedforward(X)
+answer = NN.feedforward(X)
+
+error = answer - np.identity(8)
 
 # print(np.asarray(answer))
 
-# for i in answer:
-# 	print(sum(i))
+for i in error:
+	print(sum(i))
 # autoencoder seems to be working
 
+
+print('hey')
+print(answer)
