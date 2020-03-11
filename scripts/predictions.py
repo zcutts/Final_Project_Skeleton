@@ -136,7 +136,7 @@ with open('../data/yeast-upstream-1k-negative.fa') as txt:
 
 
 # match the number of positives and negatives
-long_negatives = random.sample(all_negatives, 548)
+long_negatives = random.sample(all_negatives, len(positives))
 
 # randomly select 17mer from entire negative sequence
 negatives = []
